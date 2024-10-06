@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.natureapp.models.NatureItem
 import com.example.natureapp.ui.theme.NatureAppTheme
@@ -35,7 +36,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             NatureAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MyCard(innerPadding)
+                    MyCard(paddingValues = PaddingValues(15.dp))
                 }
             }
         }
@@ -43,44 +44,47 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Composable
 fun MyCard(paddingValues: PaddingValues){
     val natureList = NatureItem.natureItems
-    LazyColumn (
-        modifier = Modifier
-            .fillMaxSize()
-            .fillMaxWidth()
-            .padding(paddingValues)
+    Column (
+        modifier = Modifier.padding(paddingValues)
     ){
-        items(natureList) { item ->
-            Card (
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(350.dp)
-                    .padding(paddingValues)
-            ){
-                Column{
-                    Image(
-                        painter = rememberAsyncImagePainter(model = item.imagen),
-                        contentDescription = "Nature Picture",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp),
-                        contentScale = ContentScale.Crop
-                    )
-                    Text(text = item.titulo,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .padding(top = 10.dp))
-                    Text(text = item.descripcion)
+        Text(text = "Lugares Naturales",
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 25.dp),
+            fontSize = 30.sp
+        )
+        LazyColumn (
+            modifier = Modifier
+                .fillMaxSize()
+                .fillMaxWidth()
+                .padding(top = 15.dp)
+        ){
+            items(natureList) { item ->
+                Card (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(350.dp)
+                        .padding(bottom = 15.dp)
+                ){
+                    Column{
+                        Image(
+                            painter = rememberAsyncImagePainter(model = item.imagen),
+                            contentDescription = "Nature Picture",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp),
+                            contentScale = ContentScale.Crop
+                        )
+                        Text(text = item.titulo,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .padding(top = 10.dp),
+                            fontSize = 20.sp
+                        )
+                        Text(text = item.descripcion, modifier = Modifier.padding(start = 15.dp, end = 15.dp))
+                    }
                 }
             }
         }
@@ -95,6 +99,6 @@ fun MyCard(paddingValues: PaddingValues){
 @Composable
 fun CardPreview() {
     NatureAppTheme {
-        MyCard(paddingValues = PaddingValues(10.dp))
+        MyCard(paddingValues = PaddingValues(15.dp))
     }
 }
